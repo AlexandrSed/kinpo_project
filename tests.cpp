@@ -16,6 +16,22 @@ void comparePoints(point actualPoint, point expectedPoint,char testName[150])
     QVERIFY2(actualPoint.z == expectedPoint.z, testName);
 }
 
+void compareParallelogramms(parallelogram actual, parallelogram expected, char testName[150])
+{
+    comparePoints(actual.A, expected.A, testName);
+    comparePoints(actual.B, expected.B, testName);
+    comparePoints(actual.C, expected.C, testName);
+    comparePoints(actual.D, expected.D, testName);
+    comparePoints(actual.side1.getExtremePoint1(), expected.side1.getExtremePoint1(), testName);
+    comparePoints(actual.side1.getExtremePoint2(), expected.side1.getExtremePoint2(), testName);
+    comparePoints(actual.side2.getExtremePoint1(), expected.side2.getExtremePoint1(), testName);
+    comparePoints(actual.side2.getExtremePoint2(), expected.side2.getExtremePoint2(), testName);
+    comparePoints(actual.side3.getExtremePoint1(), expected.side3.getExtremePoint1(), testName);
+    comparePoints(actual.side3.getExtremePoint2(), expected.side3.getExtremePoint2(), testName);
+    comparePoints(actual.side4.getExtremePoint1(), expected.side4.getExtremePoint1(), testName);
+    comparePoints(actual.side4.getExtremePoint2(), expected.side4.getExtremePoint2(), testName);
+}
+
 void tests::testDetermineMutualArrangementOfLines()
 {
     segment AB({1,7,3},{3,8,7});
