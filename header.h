@@ -31,6 +31,8 @@ public:
     void setExtremePoints(point point1, point point2);
     mutualArrangementOfLines determineMutualArrangementOfLines(segment &segment2);
     point findIntersectionPointIntersectingLines(segment &segment2);
+    point getExtremePoint1();
+    point getExtremePoint2();
 
 
 private:

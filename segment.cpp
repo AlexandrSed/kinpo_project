@@ -21,6 +21,16 @@ segment::segment(point point1, point point2)
     guideVector={0,0,0};
 }
 
+point segment::getExtremePoint1()
+{
+    return extremePoint1;
+}
+
+point segment::getExtremePoint2()
+{
+    return extremePoint2;
+}
+
 point segment::calculateGuideVector()
 {
 
