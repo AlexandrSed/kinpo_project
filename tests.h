@@ -11,6 +11,7 @@ public:
 
 private slots:
     void testDetermineMutualArrangementOfLines();
+    void testFindIntersectionPointIntersectingLines();
 };
 
 #endif // TESTS_H

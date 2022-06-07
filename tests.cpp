@@ -91,5 +91,62 @@ void tests::testDetermineMutualArrangementOfLines()
     QVERIFY2(AB.determineMutualArrangementOfLines(CD)==intersection,"the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
 }
 
+void tests::testFindIntersectionPointIntersectingLines()
+{
+    segment AB({1,7,3},{3,8,7});
+    segment CD({6,-1,-2},{9,-3,-1});
+    point expectedAnswer={-3,5,-5};
 
+    // прямые пересекаются
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "Lines intersection");
+
+    // прямые перпендикулярны
+    AB.setExtremePoints({0,1,3},{4,3,5});
+    CD.setExtremePoints({1,4,5},{3,0,3});
+    expectedAnswer = {2,2,4};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "Lines perpendicular");
+
+    // прямые пересекаются, и одна из них параллельна координатной оси OX
+    AB.setExtremePoints({6,2,5},{2,2,5});
+    CD.setExtremePoints({7,0,2},{5,4,8});
+    expectedAnswer = {6,2,5};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection, and one of the lines is parallel to the coordinate axis OX");
+
+    // прямые пересекаются, и одна из них параллельна координатной оси OY
+    AB.setExtremePoints({2,6,5},{2,2,5});
+    CD.setExtremePoints({7,0,2},{5,4,8});
+    expectedAnswer = {2,6,5};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection, and one of the lines is parallel to the coordinate axis OY");
+
+    // прямые пересекаются, и одна из них параллельна координатной оси OZ
+    AB.setExtremePoints({2,5,6},{2,5,2});
+    CD.setExtremePoints({0,2,7},{4,8,5});
+    expectedAnswer = {2,5,6};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection, and one of the lines is parallel to the coordinate axis OZ");
+
+    // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости XOY
+    AB.setExtremePoints({1,1,3},{3,2,3});
+    CD.setExtremePoints({1,3,3},{2,-1,3});
+    expectedAnswer = {1.44,1.22,3};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection and lie in the same plane parallel to the coordinate plane XOY");
+
+    // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости XOZ
+    AB.setExtremePoints({1,3,1},{3,3,2});
+    CD.setExtremePoints({1,3,3},{2,3,-1});
+    expectedAnswer = {1.44,3,1.22};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection and lie in the same plane parallel to the coordinate plane XOZ");
+
+    // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости YOZ
+    AB.setExtremePoints({3,1,1},{3,3,2});
+    CD.setExtremePoints({3,1,3},{3,2,-1});
+    expectedAnswer = {1.44,1.22,3};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection and lie in the same plane parallel to the coordinate plane YOZ");
+
+    /* прямые пересекаются и лежат обе в одной плоскости параллельной
+ координатной, и одна прямая параллельна координатной оси*/
+    AB.setExtremePoints({3,1,1},{3,3,2});
+    CD.setExtremePoints({3,2,0},{3,2,2});
+    expectedAnswer = {3,2,1.5};
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
+}
 
