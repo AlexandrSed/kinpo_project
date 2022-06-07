@@ -166,3 +166,28 @@ void tests::testFindIntersectionPointIntersectingLines()
     comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
 }
 
+void tests::testDetermineSidesOfParallelogram()
+{
+    segment AB, BC, CD, AD;
+    parallelogram actual = {{2,4,2},{3,5,6},{6,8,8},{5,7,4}, AB, BC, CD, AD};
+    segment ABexp({2,4,2},{3,5,6});
+    segment BCexp({3,5,6},{6,8,8});
+    segment CDexp({6,8,8},{5,7,4});
+    segment ADexp({5,7,4},{2,4,2});
+    parallelogram expected = {{2,4,2},{3,5,6},{6,8,8},{5,7,4}, ABexp, BCexp, CDexp, ADexp};
+
+    // переданные точки перечислены по порядку
+    determineSidesOfParallelogram(actual);
+    compareParallelogramms(actual, expected, "transmitted points are listed in order");
+
+    // переданные точки перечислены не по порядку
+    actual.B = {6,8,8};
+    actual.C = {5,7,4};
+    actual.D = {3,5,6};
+    expected.B = {6,8,8};
+    expected.C = {5,7,4};
+    expected.D = {3,5,6};
+    determineSidesOfParallelogram(actual);
+    compareParallelogramms(actual, expected, "transmitted points are listed out of order");
+
+}

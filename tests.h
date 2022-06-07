@@ -12,6 +12,7 @@ public:
 private slots:
     void testDetermineMutualArrangementOfLines();
     void testFindIntersectionPointIntersectingLines();
+    void testDetermineSidesOfParallelogram();
 };
 
 #endif // TESTS_H
