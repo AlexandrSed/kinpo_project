@@ -24,3 +24,13 @@ void determineSidesOfParallelogram(parallelogram &ABCD)
 {
 
 }
+
+void findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(segment segmentA, segment segmentB, intersectionPoints &answer)
+{
+
+}
+
+void findIntersectionPointsOfSegmentWithParallelogram(parallelogram &ABCD, segment MN, intersectionPoints &answer)
+{
+
+}

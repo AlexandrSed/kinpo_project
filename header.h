@@ -33,7 +33,7 @@ public:
     point findIntersectionPointIntersectingLines(segment &segment2);
     point getExtremePoint1();
     point getExtremePoint2();
-
+    point getGuideVector();
 
 private:
     point guideVector;
