@@ -262,3 +262,84 @@ void tests::testFindTheIntersectionPointOfSegmentsLyingOnIntersectingLines()
     comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
              "the intersection point is the ends of both segments");
 }
+
+void tests::testFindIntersectionPointsOfSegmentWithParallelogram()
+{
+    segment AB,BC,CD,AD,MN({6,9,13},{3,4,1});
+    parallelogram ABCD = {{2,4,2},{3,5,6},{6,8,8},{5,7,4},AB,BC,CD,AD};
+    intersectionPoints actual = {{0,0,0},{0,0,0}, 0};
+    intersectionPoints expected = {{4.5,6.5,7},{0,0,0}, 1};
+
+
+    // отрезок пересекает одну сторону параллелограмма
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment intersects one side of the parallelogram");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the segment intersects one side of the parallelogram");
+
+    // отрезок не пересекает параллелограмм
+    MN.setExtremePoints({-6,6,3},{5,4,1});
+    actual.pointCounter = 0;
+    expected.pointCounter = 0;
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment does not intersect the parallelogram");
+
+    // отрезок пересекает две стороны параллелограмма
+    MN.setExtremePoints({8,10,11},{1,3,3});
+    actual = {{0,0,0},{0,0,0}, 0};
+    expected = {{4.5,6.5,7},{2.75,4.75,5}, 2};
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment intersects two sides of the parallelogram");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the segment intersects two sides of the parallelogram");
+    comparePoints(actual.intersectionPoint2, expected.intersectionPoint2,
+             "the segment intersects two sides of the parallelogram");
+
+    // отрезок проходит через угловую точку параллелограмма
+    MN.setExtremePoints({3,5,1},{1,3,3});
+    actual = {{0,0,0},{0,0,0}, 0};
+    expected = {{2,4,2},{0,0,0}, 1};
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment passes through the corner point of the parallelogram");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the segment passes through the corner point of the parallelogram");
+
+    // отрезок проходит через две противоположные угловые точки параллелограмма
+    MN.setExtremePoints({7,9,2},{1,3,8});
+    actual = {{0,0,0},{0,0,0}, 0};
+    expected = {{3,5,6},{5,7,4}, 2};
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment passes through two opposite corner points of the parallelogram");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the segment passes through two opposite corner points of the parallelogram");
+    comparePoints(actual.intersectionPoint2, expected.intersectionPoint2,
+             "the segment passes through two opposite corner points of the parallelogram");
+
+    // отрезок пересекает одну сторону, и проходит через угловую точку параллелограмма
+    MN.setExtremePoints({0,2,4},{10,12,4});
+    actual = {{0,0,0},{0,0,0}, 0};
+    expected = {{2.5,4.5,4},{5,7,4}, 2};
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment intersects one side, and passes through the corner point of the parallelogram");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the segment intersects one side, and passes through the corner point of the parallelogram");
+    comparePoints(actual.intersectionPoint2, expected.intersectionPoint2,
+             "the segment intersects one side, and passes through the corner point of the parallelogram");
+
+    // отрезок лежит на одной прямой со стороной, и имеет с ней одну общую точку
+    MN.setExtremePoints({4,6,10},{3,5,6});
+    actual = {{0,0,0},{0,0,0}, 0};
+    expected = {{3,5,6},{0,0,0}, 1};
+    findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the segment lies on the same straight line with the side, and has one point in common with it");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the segment lies on the same straight line with the side, and has one point in common with it");
+
+}

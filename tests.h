@@ -14,6 +14,7 @@ private slots:
     void testFindIntersectionPointIntersectingLines();
     void testDetermineSidesOfParallelogram();
     void testFindTheIntersectionPointOfSegmentsLyingOnIntersectingLines();
+    void testFindIntersectionPointsOfSegmentWithParallelogram();
 };
 
 #endif // TESTS_H
