@@ -104,7 +104,8 @@ void tests::testDetermineMutualArrangementOfLines()
     параллельной координатной, и одна прямая параллельна координатной оси*/
     AB.setExtremePoints({3,1,1},{3,3,2});
     CD.setExtremePoints({3,2,0},{3,2,2});
-    QVERIFY2(AB.determineMutualArrangementOfLines(CD)==intersection,"the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
+    QVERIFY2(AB.determineMutualArrangementOfLines(CD)==intersection,
+             "the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
 }
 
 void tests::testFindIntersectionPointIntersectingLines()
@@ -126,44 +127,51 @@ void tests::testFindIntersectionPointIntersectingLines()
     AB.setExtremePoints({6,2,5},{2,2,5});
     CD.setExtremePoints({7,0,2},{5,4,8});
     expectedAnswer = {6,2,5};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection, and one of the lines is parallel to the coordinate axis OX");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+                  "intersection, and one of the lines is parallel to the coordinate axis OX");
 
     // прямые пересекаются, и одна из них параллельна координатной оси OY
     AB.setExtremePoints({2,6,5},{2,2,5});
     CD.setExtremePoints({7,0,2},{5,4,8});
     expectedAnswer = {2,6,5};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection, and one of the lines is parallel to the coordinate axis OY");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+                  "intersection, and one of the lines is parallel to the coordinate axis OY");
 
     // прямые пересекаются, и одна из них параллельна координатной оси OZ
     AB.setExtremePoints({2,5,6},{2,5,2});
     CD.setExtremePoints({0,2,7},{4,8,5});
     expectedAnswer = {2,5,6};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection, and one of the lines is parallel to the coordinate axis OZ");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+                "intersection, and one of the lines is parallel to the coordinate axis OZ");
 
     // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости XOY
     AB.setExtremePoints({1,1,3},{3,2,3});
     CD.setExtremePoints({1,3,3},{2,-1,3});
     expectedAnswer = {1.44,1.22,3};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection and lie in the same plane parallel to the coordinate plane XOY");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+                  "intersection and lie in the same plane parallel to the coordinate plane XOY");
 
     // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости XOZ
     AB.setExtremePoints({1,3,1},{3,3,2});
     CD.setExtremePoints({1,3,3},{2,3,-1});
     expectedAnswer = {1.44,3,1.22};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection and lie in the same plane parallel to the coordinate plane XOZ");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+          "intersection and lie in the same plane parallel to the coordinate plane XOZ");
 
     // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости YOZ
     AB.setExtremePoints({3,1,1},{3,3,2});
     CD.setExtremePoints({3,1,3},{3,2,-1});
     expectedAnswer = {1.44,1.22,3};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "intersection and lie in the same plane parallel to the coordinate plane YOZ");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+          "intersection and lie in the same plane parallel to the coordinate plane YOZ");
 
     /* прямые пересекаются и лежат обе в одной плоскости параллельной
  координатной, и одна прямая параллельна координатной оси*/
     AB.setExtremePoints({3,1,1},{3,3,2});
     CD.setExtremePoints({3,2,0},{3,2,2});
     expectedAnswer = {3,2,1.5};
-    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer, "the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
+    comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
+          "the lines intersect and both lie in the same plane parallel to the coordinate, and one line is parallel to the coordinate axis");
 }
 
 void tests::testDetermineSidesOfParallelogram()
@@ -190,4 +198,67 @@ void tests::testDetermineSidesOfParallelogram()
     determineSidesOfParallelogram(actual);
     compareParallelogramms(actual, expected, "transmitted points are listed out of order");
 
+}
+
+void tests::testFindTheIntersectionPointOfSegmentsLyingOnIntersectingLines()
+{
+    segment AB({7,3,5},{3,1,-3});
+    segment CD({2,4,0},{8,0,2});
+    intersectionPoints actual ={{0,0,0},{0,0,0}, 0};
+    intersectionPoints expected{{5,2,1},{0,0,0}, 1};
+
+    //  точка пересечения прямых, на которых лежат отрезки, лежит на серединах обоих отрезков
+    findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(AB, CD, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+         "the point of intersection of the lines on which the segments lie, lie in the middle of both segments");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+         "the point of intersection of the lines on which the segments lie, lie in the middle of both segments");
+
+    // прямые, на которых лежат отрезки, не пересекаются
+    AB.setExtremePoints({3,-1,4},{4,1,4});
+    CD.setExtremePoints({0,2,6},{1,3,8});
+    actual.pointCounter = 0;
+    expected.pointCounter = 0;
+    findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(AB, CD, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter, "the lines on which the segments lie do not intersect");
+
+    // точка пересечения прямых не лежит на отрезках
+    AB.setExtremePoints({1,7,3},{3,8,7});
+    CD.setExtremePoints({6,-1,-2},{9,-3,-1});
+    actual.pointCounter = 0;
+    expected.pointCounter = 0;
+    findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(AB, CD, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter, "the intersection point of the lines does not lie on the segments");
+
+    // точка пересечения прямых лежит одном из отрезков
+    AB.setExtremePoints({7,3,5},{3,1,-3});
+    CD.setExtremePoints({2,4,0},{-1,6,-1});
+    actual.pointCounter = 0;
+    expected.pointCounter = 0;
+    findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(AB, CD, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter, "the intersection point of the straight lines lies in one of the segments");
+
+    // точка пересечения лежит на середине одного и на конце другого отрезка
+    AB.setExtremePoints({7,3,5},{3,1,-3});
+    CD.setExtremePoints({2,4,0},{5,2,1});
+    actual.pointCounter = 0;
+    expected.pointCounter = 1;
+    expected.intersectionPoint1 = {5,2,1};
+    findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(AB, CD, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the intersection point lies in the middle of one and at the end of the other segment");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the intersection point lies in the middle of one and at the end of the other segment");
+
+    // точка пересечения является концами обоих отрезков
+    AB.setExtremePoints({7,3,5},{5,2,1});
+    CD.setExtremePoints({2,4,0},{5,2,1});
+    actual.pointCounter = 0;
+    expected.pointCounter = 1;
+    expected.intersectionPoint1 = {5,2,1};
+    findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(AB, CD, actual);
+    QVERIFY2(actual.pointCounter == expected.pointCounter,
+             "the intersection point is the ends of both segments");
+    comparePoints(actual.intersectionPoint1, expected.intersectionPoint1,
+             "the intersection point is the ends of both segments");
 }
