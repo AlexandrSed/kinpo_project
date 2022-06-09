@@ -132,7 +132,7 @@ void tests::testFindIntersectionPointIntersectingLines()
 
     // прямые пересекаются, и одна из них параллельна координатной оси OY
     AB.setExtremePoints({2,6,5},{2,2,5});
-    CD.setExtremePoints({7,0,2},{5,4,8});
+    CD.setExtremePoints({0,7,2},{4,5,8});
     expectedAnswer = {2,6,5};
     comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
                   "intersection, and one of the lines is parallel to the coordinate axis OY");
