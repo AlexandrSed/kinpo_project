@@ -142,8 +142,6 @@ point segment::findIntersectionPointIntersectingLines(segment &segment2)
             answer.z = (n1*answer.x - n1*x1 + l1*z1)/l1; // вычисляем z координату через l1
          else // иначе…
             answer.z = (n2*answer.x - n2*x2 + l2*z2)/l2; // вычисляем z координату через l2
-
-        return answer; // возвращаем точку пересечения
     }
     // Иначе, если n1 !=0 n2*l1/n1 != l2, то есть прямые не лежат в плоскости перпендикулярной плоскости XOZ...
     else if(n1 != 0 && (n2*l1)/n1 != l2)
@@ -155,9 +153,6 @@ point segment::findIntersectionPointIntersectingLines(segment &segment2)
             answer.y = (m1*answer.x - m1*x1 + l1*y1)/l1; // вычисляем y координату через l1
         else // иначе…
             answer.y = (m2*answer.x - m2*x2 + l2*y2)/l2; // вычисляем y координату через l2
-
-        return answer;// возвращаем точку пересечения
-
     }
     // Иначе, если n1 != 0 и n2*m1/n1 != m2, то есть прямые не лежат в плоскости перпендикулярной плоскости YOZ...
     else if(n1 != 0 && (n2*m1)/n1 != m2)
@@ -169,27 +164,19 @@ point segment::findIntersectionPointIntersectingLines(segment &segment2)
             answer.z = (answer.y*l1 - y1*l1 + m1*x1)/m1; // вычисляем x координату через m1
         else // иначе…
             answer.z = (answer.y*l2 - y2*l2 + m2*x2)/m2; // вычисляем x координату через m2
-
-        return answer;// возвращаем точку пересечения
-
     }
-    // Иначе, если n1 != 0 и l2*m1/l1 != m2, то есть прямые не лежат в плоскости перпендикулярной плоскости YOZ...
-    else if (n1 != 0 && (l2*m1)/l1 != m2)
+    // Иначе, если l1 != 0 и l2*m1/l1 != m2, то есть прямые не лежат в плоскости перпендикулярной плоскости YOZ...
+    else if (l1 != 0 && (l2*m1)/l1 != m2)
     {
-        answer.x = (m2*x2 - l2*y2 - (l2*m1*x1)/l1 + y1*l2)/(m2 - (l2*m1)/l1); // вычисляем x координату точки пересечения
+        answer.x = (m2*x2 - l2*y2 - l2*m1*x1/l1 + y1*l2)/(m2 - l2*m1/l1); // вычисляем x координату точки пересечения
         answer.y = (m1*answer.x - m1*x1 + y1*l1)/l1; // вычисляем y координату
 
         if(m1 != 0) // если m1 != 0…
             answer.z = (answer.y*n1 - y1*n1 + z1*m1)/m1; // вычисляем z координату через m1
         else // иначе…
             answer.z = (answer.y*n2 - y2*n2 + z2*m2)/m2; // вычисляем z координату через m2
-
-        return answer;// возвращаем точку пересечения
-    }
-        // Иначе…
-    {
-        // прямые параллельны,
     }
 
 
+    return answer;// возвращаем точку пересечения
 }
