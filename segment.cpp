@@ -53,7 +53,7 @@ void segment::setExtremePoints(point point1, point point2)
 mutualArrangementOfLines segment::determineMutualArrangementOfLines(segment &segment2)
 {
     // Рассчитать направляющий вектор (l1, m1, n1) для первого отрезка…
-    this->calculateGuideVector();
+    calculateGuideVector();
     // Рассчитать направляющий вектор (l2, m2, n2) для второго отрезка…
     segment2.calculateGuideVector();
 
@@ -120,5 +120,76 @@ mutualArrangementOfLines segment::determineMutualArrangementOfLines(segment &seg
 
 point segment::findIntersectionPointIntersectingLines(segment &segment2)
 {
+    // Рассчитать направляющий вектор (l1, m1, n1) для первого отрезка…
+    calculateGuideVector();
+    // Рассчитать направляющий вектор (l2, m2, n2) для второго отрезка…
+    segment2.calculateGuideVector();
+
+    point answer;
+    double l1 = guideVector.x, m1 = guideVector.y, n1 = guideVector.z;
+    double l2 = segment2.getGuideVector().x, m2 = segment2.getGuideVector().y, n2 = segment2.getGuideVector().z;
+    double x1 = extremePoint1.x, y1 = extremePoint1.y, z1 = extremePoint1.z;
+    double x2 = segment2.getExtremePoint1().x, y2 = segment2.getExtremePoint1().y, z2 = segment2.getExtremePoint1().z;
+
+
+    // Если m1 != 0 и m2*l1/m1 != l2, то есть прямые не лежат в плоскости перпендикулярной плоскости XOY...
+    if(m1 != 0 && (m2*l1)/m1 != l2)
+    {
+        answer.y = (m2*x2 - l2*y2 +(m2*l1*y1)/m1 - x1*m2)/((m2*l1)/m1 - l2); // вычисляем у координату точки пересечения
+        answer.x = (answer.y*l1 - l1*y1 + m1*x1)/m1; // вычисляем х координату
+
+        if (l1 != 0) // если l1 != 0…
+            answer.z = (n1*answer.x - n1*x1 + l1*z1)/l1; // вычисляем z координату через l1
+         else // иначе…
+            answer.z = (n2*answer.x - n2*x2 + l2*z2)/l2; // вычисляем z координату через l2
+
+        return answer; // возвращаем точку пересечения
+    }
+    // Иначе, если n1 !=0 n2*l1/n1 != l2, то есть прямые не лежат в плоскости перпендикулярной плоскости XOZ...
+    else if(n1 != 0 && (n2*l1)/n1 != l2)
+    {
+        answer.z = (n2*x2 - l2*z2 +(n2*l1*z1)/n1 - x1*n2)/((n2*l1)/n1 - l2); // вычисляем z координату точки пересечения
+        answer.x = (answer.z*l1 - l1*z1 + n1*x1)/n1; // вычисляем х координату
+
+        if(l1 != 0) // если l1 != 0…
+            answer.y = (m1*answer.x - m1*x1 + l1*y1)/l1; // вычисляем y координату через l1
+        else // иначе…
+            answer.y = (m2*answer.x - m2*x2 + l2*y2)/l2; // вычисляем y координату через l2
+
+        return answer;// возвращаем точку пересечения
+
+    }
+    // Иначе, если n1 != 0 и n2*m1/n1 != m2, то есть прямые не лежат в плоскости перпендикулярной плоскости YOZ...
+    else if(n1 != 0 && (n2*m1)/n1 != m2)
+    {
+        answer.z = (n2*y2 - m2*z2 +(n2*m1*z1)/n1 - y1*n2)/((n2*m1)/n1 - m2); // вычисляем z координату точки пересечения
+        answer.y = (answer.z*m1 - z1*m1 + y1*n1)/n1; // вычисляем y координату
+
+        if(m1 != 0) // если m1 != 0…
+            answer.z = (answer.y*l1 - y1*l1 + m1*x1)/m1; // вычисляем x координату через m1
+        else // иначе…
+            answer.z = (answer.y*l2 - y2*l2 + m2*x2)/m2; // вычисляем x координату через m2
+
+        return answer;// возвращаем точку пересечения
+
+    }
+    // Иначе, если n1 != 0 и l2*m1/l1 != m2, то есть прямые не лежат в плоскости перпендикулярной плоскости YOZ...
+    else if (n1 != 0 && (l2*m1)/l1 != m2)
+    {
+        answer.x = (m2*x2 - l2*y2 - (l2*m1*x1)/l1 + y1*l2)/(m2 - (l2*m1)/l1); // вычисляем x координату точки пересечения
+        answer.y = (m1*answer.x - m1*x1 + y1*l1)/l1; // вычисляем y координату
+
+        if(m1 != 0) // если m1 != 0…
+            answer.z = (answer.y*n1 - y1*n1 + z1*m1)/m1; // вычисляем z координату через m1
+        else // иначе…
+            answer.z = (answer.y*n2 - y2*n2 + z2*m2)/m2; // вычисляем z координату через m2
+
+        return answer;// возвращаем точку пересечения
+    }
+        // Иначе…
+    {
+        // прямые параллельны,
+    }
+
 
 }
