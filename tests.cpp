@@ -161,7 +161,7 @@ void tests::testFindIntersectionPointIntersectingLines()
     // прямые пересекаются и лежат в одной плоскости, параллельной координатной плоскости YOZ
     AB.setExtremePoints({3,1,1},{3,3,2});
     CD.setExtremePoints({3,1,3},{3,2,-1});
-    expectedAnswer = {1.44,1.22,3};
+    expectedAnswer = {3,1.44,1.22};
     comparePoints(AB.findIntersectionPointIntersectingLines(CD), expectedAnswer,
           "intersection and lie in the same plane parallel to the coordinate plane YOZ");
 
