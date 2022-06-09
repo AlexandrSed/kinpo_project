@@ -47,7 +47,7 @@ void tests::testDetermineMutualArrangementOfLines()
 
     // перпендикулярны
     AB.setExtremePoints({0,1,3},{4,3,5});
-    CD.setExtremePoints({1,4,5},{3,0,3});
+    CD.setExtremePoints({1,2,5},{3,0,3});
     QVERIFY2(AB.determineMutualArrangementOfLines(CD)==perpendicular,"perpendikular");
 
     // скрещиваются
