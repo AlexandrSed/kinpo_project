@@ -161,9 +161,9 @@ point segment::findIntersectionPointIntersectingLines(segment &segment2)
         answer.y = (answer.z*m1 - z1*m1 + y1*n1)/n1; // вычисляем y координату
 
         if(m1 != 0) // если m1 != 0…
-            answer.z = (answer.y*l1 - y1*l1 + m1*x1)/m1; // вычисляем x координату через m1
+            answer.x = (answer.y*l1 - y1*l1 + m1*x1)/m1; // вычисляем x координату через m1
         else // иначе…
-            answer.z = (answer.y*l2 - y2*l2 + m2*x2)/m2; // вычисляем x координату через m2
+            answer.x = (answer.y*l2 - y2*l2 + m2*x2)/m2; // вычисляем x координату через m2
     }
     // Иначе, если l1 != 0 и l2*m1/l1 != m2, то есть прямые не лежат в плоскости перпендикулярной плоскости YOZ...
     else if (l1 != 0 && (l2*m1)/l1 != m2)
