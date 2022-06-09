@@ -177,6 +177,14 @@ point segment::findIntersectionPointIntersectingLines(segment &segment2)
             answer.z = (answer.y*n2 - y2*n2 + z2*m2)/m2; // вычисляем z координату через m2
     }
 
+    // округлить значения координат в answer до двух знаков после запятой
+    int intX = answer.x*100, intY = answer.y*100, intZ = answer.z*100;
+    answer.x = intX;
+    answer.x /= 100;
+    answer.y = intY;
+    answer.y /= 100;
+    answer.z = intZ;
+    answer.z /= 100;
 
-    return answer;// возвращаем точку пересечения
+    return answer; // возвращаем точку пересечения
 }
