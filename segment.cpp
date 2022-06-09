@@ -79,7 +79,9 @@ mutualArrangementOfLines segment::determineMutualArrangementOfLines(segment &seg
             ((l1 == l2 && l2 == l3 && l3 == 0) && m2*n1 == n2*m1 && m3*n1 == n3*m1) ||
             ((m1 == m2 && m2 == m3 && m3 == 0) && l2*n1 == n2*l1 && l3*n1 == n3*l1) ||
             ((n1 == n2 && n2 == n3 && n3 == 0) && l2*m1 == m2*l1 && l3*m1 == m3*l1) ||
-            ((m2*n1 == n2*m1 && l2*n1 == n2*l1) && (m3*n1 == n3*m1 && l3*n1 == m3*l1)))
+            ((l1 != l2 || l2 != l3 || l3 != 0) && (m1 != m2 || m2 != m3 || m3 != 0) &&
+             (n1 != n2 || n2 != n3 || n3 != 0) &&
+                (m2*n1 == n2*m1 && l2*n1 == n2*l1) && (m3*n1 == n3*m1 && l3*n1 == n3*l1)))
     {
         return coincidence; // Прямые совпадают
     }
