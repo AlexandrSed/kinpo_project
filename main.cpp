@@ -75,6 +75,31 @@ void determineSidesOfParallelogram(parallelogram &ABCD)
 
 void findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(segment segmentA, segment segmentB, intersectionPoints &answer)
 {
+    // Найти точку пересечения прямых на которых лежат отрезки…
+    point intersectionPoint = segmentA.findIntersectionPointIntersectingLines(segmentB);
+
+    // если точка пересечения лежит на обоих отрезках…
+    if(((intersectionPoint.x >= segmentA.getExtremePoint1().x && intersectionPoint.x <= segmentA.getExtremePoint2().x) ||
+        (intersectionPoint.x <= segmentA.getExtremePoint1().x && intersectionPoint.x >= segmentA.getExtremePoint2().x)) &&
+            ((intersectionPoint.y >= segmentA.getExtremePoint1().y && intersectionPoint.y <= segmentA.getExtremePoint2().y)||
+             (intersectionPoint.y <= segmentA.getExtremePoint1().y && intersectionPoint.y >= segmentA.getExtremePoint2().y)) &&
+            ((intersectionPoint.z >= segmentA.getExtremePoint1().z && intersectionPoint.z <= segmentA.getExtremePoint2().z)||
+             (intersectionPoint.z <= segmentA.getExtremePoint1().z && intersectionPoint.z >= segmentA.getExtremePoint2().z)) &&
+            ((intersectionPoint.x >= segmentB.getExtremePoint1().x && intersectionPoint.x <= segmentB.getExtremePoint2().x) ||
+             (intersectionPoint.x <= segmentB.getExtremePoint1().x && intersectionPoint.x >= segmentB.getExtremePoint2().x)) &&
+            ((intersectionPoint.y >= segmentB.getExtremePoint1().y && intersectionPoint.y <= segmentB.getExtremePoint2().y) ||
+             (intersectionPoint.y <= segmentB.getExtremePoint1().y && intersectionPoint.y >= segmentB.getExtremePoint2().y)) &&
+            ((intersectionPoint.z >= segmentB.getExtremePoint1().z && intersectionPoint.z <= segmentB.getExtremePoint2().z)||
+             (intersectionPoint.z <= segmentB.getExtremePoint1().z && intersectionPoint.z >= segmentB.getExtremePoint2().z)))
+    {
+        // …вернуть ее координаты и счетчик точек пересечения повысить на один
+        if(answer.pointCounter == 0)
+            answer.intersectionPoint1 = intersectionPoint;
+        else
+            answer.intersectionPoint2 = intersectionPoint;
+
+        answer.pointCounter++;
+    }
 
 }
 
