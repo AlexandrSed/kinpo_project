@@ -34,6 +34,7 @@ public:
     point getExtremePoint1();
     point getExtremePoint2();
     point getGuideVector();
+    void operator=(segment other);
 
 private:
     point guideVector;

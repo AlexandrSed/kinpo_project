@@ -7,6 +7,13 @@ segment::segment()
     guideVector={0,0,0};
 }
 
+void segment::operator=(segment other)
+{
+    extremePoint1 = other.getExtremePoint1();
+    extremePoint2 = other.getExtremePoint2();
+    guideVector = other.getGuideVector();
+}
+
 segment::segment(segment &s1)
 {
     extremePoint1=s1.extremePoint1;
