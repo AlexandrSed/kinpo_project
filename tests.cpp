@@ -181,7 +181,7 @@ void tests::testDetermineSidesOfParallelogram()
     segment ABexp({2,4,2},{3,5,6});
     segment BCexp({3,5,6},{6,8,8});
     segment CDexp({6,8,8},{5,7,4});
-    segment ADexp({5,7,4},{2,4,2});
+    segment ADexp({2,4,2}, {5,7,4});
     parallelogram expected = {{2,4,2},{3,5,6},{6,8,8},{5,7,4}, ABexp, BCexp, CDexp, ADexp};
 
     // переданные точки перечислены по порядку
