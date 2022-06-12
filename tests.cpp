@@ -289,7 +289,7 @@ void tests::testFindIntersectionPointsOfSegmentWithParallelogram()
     // отрезок пересекает две стороны параллелограмма
     MN.setExtremePoints({8,10,11},{1,3,3});
     actual = {{0,0,0},{0,0,0}, 0};
-    expected = {{4.5,6.5,7},{2.75,4.75,5}, 2};
+    expected = {{2.75,4.75,5}, {4.5,6.5,7}, 2};
     findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, actual);
     QVERIFY2(actual.pointCounter == expected.pointCounter,
              "the segment intersects two sides of the parallelogram");
