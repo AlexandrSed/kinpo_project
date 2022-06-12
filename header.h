@@ -8,6 +8,8 @@ struct point
     double x,y,z;
 };
 
+bool operator!=(point p1, point p2);
+
 enum mutualArrangementOfLines{
     parallel,
     perpendicular,

@@ -105,5 +105,68 @@ void findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(segment segmentA
 
 void findIntersectionPointsOfSegmentWithParallelogram(parallelogram &ABCD, segment MN, intersectionPoints &answer)
 {
+    // Выдать ошибку, если координаты разных точек параллелограмма повторяются
+    // Выдать ошибку, если Отрезок вырождается в точку
+    // Выдать ошибку, если количества введенных чисел недостаточно для расчета
+    // Выдать ошибку, если количество введенных чисел больше, чем надо
+    // Выдать ошибку, если один или несколько аргументов не являются числом
 
+    determineSidesOfParallelogram(ABCD); // Определить стороны параллелограмма…
+
+    segment side;
+
+    for(int i = 1; i<=4 && answer.pointCounter<2 ; i++)// Для каждой стороны параллелограмма…
+    {
+        if(i==1)
+            side = ABCD.side1;
+        else if(i==2)
+            side = ABCD.side2;
+        else if(i==3)
+            side = ABCD.side3;
+        else
+            side = ABCD.side4;
+
+        /* если прямые, на которых лежат отрезок и сторона пересекаются, и нет найденной точки пересечения,
+        которая равнялась бы одному из концов стороны…*/
+        if((side.determineMutualArrangementOfLines(MN) == intersection ||
+                side.determineMutualArrangementOfLines(MN) == perpendicular) &&
+                answer.intersectionPoint1 != side.getExtremePoint1() &&
+                answer.intersectionPoint1 != side.getExtremePoint2())
+        {
+            // Найти точку пересечения отрезка со стороной…
+            findTheIntersectionPointOfSegmentsLyingOnIntersectingLines(side, MN, answer);
+        }
+        // иначе, если прямые совпадают…
+        else if(side.determineMutualArrangementOfLines(MN) == coincidence)
+        {
+            // если отрезок частично совпадает со стороной…
+            if((side.getExtremePoint1().x > MN.getExtremePoint1().x && side.getExtremePoint1().x < MN.getExtremePoint2().x) ||
+                    (side.getExtremePoint1().y > MN.getExtremePoint1().y && side.getExtremePoint1().y < MN.getExtremePoint2().y) ||
+                    (side.getExtremePoint1().z > MN.getExtremePoint1().z && side.getExtremePoint1().z < MN.getExtremePoint2().z) ||
+                    (side.getExtremePoint1().x < MN.getExtremePoint1().x && side.getExtremePoint1().x > MN.getExtremePoint2().x) ||
+                    (side.getExtremePoint1().y < MN.getExtremePoint1().y && side.getExtremePoint1().y > MN.getExtremePoint2().y) ||
+                    (side.getExtremePoint1().z < MN.getExtremePoint1().z && side.getExtremePoint1().z > MN.getExtremePoint2().z) ||
+                    (side.getExtremePoint2().x > MN.getExtremePoint1().x && side.getExtremePoint2().x < MN.getExtremePoint2().x) ||
+                    (side.getExtremePoint2().y > MN.getExtremePoint1().y && side.getExtremePoint2().y < MN.getExtremePoint2().y) ||
+                    (side.getExtremePoint2().z > MN.getExtremePoint1().z && side.getExtremePoint2().z < MN.getExtremePoint2().z) ||
+                    (side.getExtremePoint2().x < MN.getExtremePoint1().x && side.getExtremePoint2().x > MN.getExtremePoint2().x) ||
+                    (side.getExtremePoint2().y < MN.getExtremePoint1().y && side.getExtremePoint2().y > MN.getExtremePoint2().y) ||
+                    (side.getExtremePoint1().z < MN.getExtremePoint1().z && side.getExtremePoint2().z > MN.getExtremePoint1().z) ||
+                    (side.getExtremePoint1().x > MN.getExtremePoint1().x && side.getExtremePoint2().x < MN.getExtremePoint1().x) ||
+                    (side.getExtremePoint1().y > MN.getExtremePoint1().y && side.getExtremePoint2().y < MN.getExtremePoint1().y) ||
+                    (side.getExtremePoint1().z > MN.getExtremePoint1().z && side.getExtremePoint2().z < MN.getExtremePoint1().z) ||
+                    (side.getExtremePoint1().x < MN.getExtremePoint1().x && side.getExtremePoint2().x > MN.getExtremePoint1().x) ||
+                    (side.getExtremePoint1().y < MN.getExtremePoint1().y && side.getExtremePoint2().y > MN.getExtremePoint1().y) ||
+                    (side.getExtremePoint1().z < MN.getExtremePoint1().z && side.getExtremePoint2().z > MN.getExtremePoint1().z))
+            {
+                // выдать ошибку: отрезок и сторона параллелограмма совпадают
+            }
+        }
+    }
+
+}
+
+bool operator!=(point p1, point p2)
+{
+    return p1.x != p2.x || p1.y != p2.y || p1.z != p2.z;
 }
