@@ -2,6 +2,16 @@
 #define HEADER_H
 
 #include <QObject>
+#include <QString>
+#include <QChar>
+
+enum Errors
+{
+    noParallelogram,
+    pointsParallelogramRepeat,
+    segmentIntoPoint,
+    MNCoincidesWithSide
+};
 
 struct point
 {
@@ -9,6 +19,9 @@ struct point
 };
 
 bool operator!=(point p1, point p2);
+bool operator==(point p1, point p2);
+
+QString pointToQStr(point &p);
 
 enum mutualArrangementOfLines{
     parallel,
