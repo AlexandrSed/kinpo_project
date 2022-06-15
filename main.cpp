@@ -100,7 +100,10 @@ int main(int argc, char *argv[])
                 answer.pointCounter = 0;
                 try
                 {
+                    /// Найти точки пересечения отрезка с параллелограммом
                     findIntersectionPointsOfSegmentWithParallelogram(ABCD, MN, answer);
+
+                    /// Преобразуем расчитанные данные в строку для записи
                     QString answerStr("количество точек пересечения: ");
                     answerStr.append(QString::number(answer.pointCounter));
 
@@ -114,22 +117,45 @@ int main(int argc, char *argv[])
                             answerStr.append(pointToQStr(answer.intersectionPoint2));
                         }
                     }
+
+                    /// запишем получившийся ответ в выходной файл
                     writeStream<<answerStr;
                 }
                 catch (Errors error)
                 {
+                    /// при ошибке noParallelogram...
                     if(error == noParallelogram)
+                    {
+                        ///  записать в выходной файл "указанный четырёхугольник не является параллелограммом"
                         writeStream << "указанный четырёхугольник не является параллелограммом";
+                    }
+                    /// при ошибке pointsParallelogramRepeat...
                     else if(error == pointsParallelogramRepeat)
+                    {
+                        ///  записать в выходной файл "координаты разных точек параллелограмма повторяются"
                         writeStream << "координаты разных точек параллелограмма повторяются";
+                    }
+                    /// при ошибке segmentIntoPoint...
                     else if(error == segmentIntoPoint)
+                    {
+                        ///  записать в выходной файл "Отрезок вырождается в точку"
                         writeStream << "Отрезок вырождается в точку";
+                    }
+                    /// при ошибке MNCoincidesWithSide...
                     else if(error == MNCoincidesWithSide)
+                    {
+                        ///  записать в выходной файл "отрезок и сторона параллелограмма совпадают"
                         writeStream << "отрезок и сторона параллелограмма совпадают";
+                    }
                 }
             }
 
-            fout.close();
+            fout.close(); ///< закрыть выходной файл
+        }
+        else ///< иначе...
+        {
+            /// выдать ошибку: не удалось открыть выходной файл
+            qDebug()<<"failed to open output file";
         }
     }
     else ///< Иначе...
@@ -238,7 +264,7 @@ void findIntersectionPointsOfSegmentWithParallelogram(parallelogram &ABCD, segme
     if(ABCD.A == ABCD.B || ABCD.A == ABCD.C || ABCD.A == ABCD.D || ABCD.B == ABCD.C || ABCD.B == ABCD.D || ABCD.C == ABCD.D)
         throw pointsParallelogramRepeat;
 
-    /// Выдать ошибку, если Отрезок вырождается в точку
+    /// Выдать ошибку, если отрезок вырождается в точку
     if(MN.getExtremePoint1() == MN.getExtremePoint2())
         throw segmentIntoPoint;
 
@@ -298,29 +324,41 @@ void findIntersectionPointsOfSegmentWithParallelogram(parallelogram &ABCD, segme
     }
 
 }
-
+/// логический оператор "не равно" для точек
 bool operator!=(point p1, point p2)
 {
+    /// вернуть true в случае, если точки не равны, false в случае если точки равны
     return p1.x != p2.x || p1.y != p2.y || p1.z != p2.z;
 }
 
+/// логический оператор "равно" для точек
 bool operator==(point p1, point p2)
 {
+    /// вернуть true в случае, если точки равны, false в случае если точки не равны
     return p1.x == p2.x && p1.y == p2.y && p1.z == p2.z;
 }
 
+/// перевести точку в строковое представление
 QString pointToQStr(point &p)
 {
+    /// перевести в строку х координату
     QString strPoint(QString::number(p.x, 'f', 2));
+    /// удаляем лишние нули
     strPoint.remove(QRegularExpression("0$|.00$"));
+    /// прибавить запятую
     strPoint.append(',');
 
+    /// перевести в строку y координату
     strPoint.append(QString::number(p.y, 'f', 2));
+    /// удаляем лишние нули
     strPoint.remove(QRegularExpression("0$|.00$"));
+    /// прибавить запятую
     strPoint.append(',');
 
+    /// перевести в строку z координату
     strPoint.append(QString::number(p.z, 'f', 2));
+    /// удаляем лишние нули
     strPoint.remove(QRegularExpression("0$|.00$"));
 
-    return strPoint;
+    return strPoint; ///< вернуть получившуюся строку
 }
